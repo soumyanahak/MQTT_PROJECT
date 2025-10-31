@@ -1,0 +1,17 @@
+publishers:
+
+client1 
+mosquitto_pub -h test.mosquitto.org -t sensors/control -m "{\"action\":\"subscribe\",\"client\":\"client1\",\"sensors\":[\"temperature\",\"humidity\"]}" -q 1
+client2 
+mosquitto_pub -h test.mosquitto.org -t sensors/control -m "{\"action\":\"subscribe\",\"client\":\"client2\",\"sensors\":[\"light\",\"button\"]}" -q 1
+
+admin (can see all data):
+mosquitto_sub -h test.mosquitto.org -t "sensors/data/+" -v
+
+subscriber:
+
+client1/subs1:-
+mosquitto_sub -h test.mosquitto.org -t "sensors/data/temperature" -t "sensors/data/humidity" -v
+
+client2/subs2:-
+mosquitto_sub -h test.mosquitto.org -t "sensors/data/light" -t "sensors/data/button" -v
